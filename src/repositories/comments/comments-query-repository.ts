@@ -1,7 +1,10 @@
-import { commentsModel} from "../../db/mongoDb";
+import {commentsModel, LikesCommentsModel} from "../../db/mongoDb";
 import {ObjectId} from "mongodb";
 import {commentMaper} from "../../mapers/commentMaper";
-import {SortDataGetCoomentsForCorrectPost} from "../../allTypes/commentTypes";
+import {OutputComment, SortDataGetCoomentsForCorrectPost} from "../../allTypes/commentTypes";
+import {commentMaperWithoutLike} from "../../mapers/commentMaperWithoutLike";
+import {commentsMaperWithInfoLikeComment} from "../../mapers/commentsMaperWithInfoLikeComment";
+import {LikeComment} from "../../allTypes/LikesCommentsTypes";
 
 
 
@@ -44,12 +47,32 @@ export const commentsQueryRepository = {
         const pagesCount = Math.ceil(totalCount / pageSize)
 
 
+
+
+        /* из базы из колекции лайковКоментариев достаю только те документы у которых айдишкаКкоментария совпадает с
+         айдишкамиКОментариев из  массиве comments*/
+        const arrayDocumentsFromLikeCollection:LikeComment[] = await LikesCommentsModel.aggregate([
+            { $match: { commentId: { $in: comments } } },
+            { $group: { _id: '$commentId', count: { $sum: 1 } } }
+        ]);
+
+
+        //Промежуточный вид  массива создаюдля для возврата на фронт
+        // массив  без информации об Лайках
+        const arrayComentsWithoutLike:OutputComment[] = commentMaperWithoutLike(comments)
+
+        // массив со всеми свойствами согласно SWAGER
+        const arrayComments = commentsMaperWithInfoLikeComment(
+            arrayComentsWithoutLike
+            ,userId,
+            arrayDocumentsFromLikeCollection)
+
         return {
             pagesCount,
             page: pageNumber,
             pageSize,
             totalCount,
-            items: comments.map(commentMaper)
+            items: arrayComments
         }
     }
 }

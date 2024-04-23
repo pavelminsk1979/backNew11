@@ -7,7 +7,7 @@ export const newCommentsQueryRepository = {
 
     async findCommentById(id: string, userId: string | null) {
 
-/*данные коментария из одной колекции достану , и чтоб ответ
+/*данные коментария из колекцииКоментариев  достану , и чтоб ответ
         мапером собрать нужны данные из
         колекции likeComment*/
 
