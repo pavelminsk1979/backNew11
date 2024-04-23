@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "back10",
+  "name": "backNew11",
   "builds": [
     {
       "src": "src/index.ts",
