@@ -6,9 +6,7 @@ export const commentsRepository = {
 
     async createComment(newComment: Comment) {
 
-        const result = await commentsModel.create(newComment)
-
-        return result
+        return commentsModel.create(newComment)
     },
 
     async deleteComentById(id:string){

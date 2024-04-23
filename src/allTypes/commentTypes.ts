@@ -35,3 +35,17 @@ export type SortDataGetCoomentsForCorrectPost = {
     pageNumber:number
     pageSize:number
 }
+
+type LikesInfo={
+    likesCount:number,
+    dislikesCount:number,
+    myStatus:string,
+}
+
+export type NewOutputComment={
+    id:string
+    content:string
+    createdAt:string
+    commentatorInfo:CommentatorInfo
+    likesInfo:LikesInfo
+}

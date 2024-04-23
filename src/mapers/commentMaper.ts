@@ -13,6 +13,5 @@ export const commentMaper = (comment:any):OutputComment => {
             userId:comment.commentatorInfo.userId,
             userLogin:comment.commentatorInfo.userLogin
         }
-        //commentatorInfo:comment.commentatorInfo
     }
 }

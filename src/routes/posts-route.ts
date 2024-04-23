@@ -151,6 +151,36 @@ postsRoute.get('/:postId/comments',postIdMiddleware, async (req: RequestWithPara
 
 
 
+postsRoute.post('/:postId/comments',postIdMiddleware, authTokenMiddleware, contentValidationComments, errorValidationBlogs, async (req: RequestWithParamsWithBody<CreateComentPostIdModel, CreateComentBodyModel>, res: Response) => {
+
+    try {
+
+        const newCommentForPost = await postsSevrice.createCommentForPostByPostId(
+            req.params.postId,
+            req.body.content,
+            req.userIdLoginEmail.id,
+            req.userIdLoginEmail.login)
+
+        if (newCommentForPost.code === ResultCode.NotFound) {
+            return res.sendStatus(STATUS_CODE.NOT_FOUND_404)
+
+        }
+        if (newCommentForPost.code === ResultCode.Success) {
+            return res.status(STATUS_CODE.CREATED_201).send(newCommentForPost.data)
+        } else {
+            console.log(' FIlE post-routes.ts post-/:postId/comments')
+            return res.sendStatus(STATUS_CODE.NOT_FOUND_404)
+        }
+
+    } catch (error) {
+
+        console.log(' FIlE post-routes.ts post-/:postId/comments' + error)
+        return res.sendStatus(STATUS_CODE.SERVER_ERROR_500)
+    }
+})
+
+
+
 
 
 
