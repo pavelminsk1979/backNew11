@@ -18,10 +18,16 @@ export const commentsQueryRepository = {
     },
 
 
-    async getCommentsForCorrectPost(postId:string,sortData:SortDataGetCoomentsForCorrectPost){
+    async getCommentsForCorrectPost(
+        postId:string,
+        sortData:SortDataGetCoomentsForCorrectPost,
+        userId:string|null){
 
 
-        const {sortBy, sortDirection, pageNumber, pageSize} = sortData
+        const {sortBy,
+            sortDirection,
+            pageNumber,
+            pageSize} = sortData
 
 
         const sortDirectionValue = sortDirection === 'asc' ? 1 : -1;
