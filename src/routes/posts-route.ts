@@ -87,7 +87,7 @@ postsRoute.delete('/:id', authMiddleware, async (req: RequestWithParams<IdString
 })
 
 
-postsRoute.post('/:postId/comments',postIdMiddleware, authTokenMiddleware, contentValidationComments, errorValidationBlogs, async (req: RequestWithParamsWithBody<CreateComentPostIdModel, CreateComentBodyModel>, res: Response) => {
+/*postsRoute.post('/:postId/comments',postIdMiddleware, authTokenMiddleware, contentValidationComments, errorValidationBlogs, async (req: RequestWithParamsWithBody<CreateComentPostIdModel, CreateComentBodyModel>, res: Response) => {
 
     try {
         const newCommentForPost = await postsSevrice.createCommentForPostByPostId(req.params.postId, req.body.content, req.userIdLoginEmail.id, req.userIdLoginEmail.login)
@@ -108,7 +108,7 @@ postsRoute.post('/:postId/comments',postIdMiddleware, authTokenMiddleware, conte
         console.log(' FIlE post-routes.ts post-/:postId/comments' + error)
         return res.sendStatus(STATUS_CODE.SERVER_ERROR_500)
     }
-})
+})*/
 
 
 postsRoute.get('/:postId/comments',postIdMiddleware, async (req: RequestWithParamsWithQuery<CreateComentPostIdModel, QueryInputModalGetCommentsForCorrectPost>, res: Response) => {
