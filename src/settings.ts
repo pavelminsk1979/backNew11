@@ -4,7 +4,7 @@ import {blogsRoute} from "./routes/blogs-route";
 import {postsRoute} from "./routes/posts-route";
 import {DB} from "./db/db";
 import {
-    blogsModel, commentsModel,
+    blogsModel, commentsModel, LikesCommentsModel,
     postssModel, usersDevicesModel,
     usersModel, visitsModel
 
@@ -41,5 +41,6 @@ app.delete('/testing/all-data', async (req: Request, res: Response) => {
     await commentsModel.deleteMany({})
     await visitsModel.deleteMany({})
     await usersDevicesModel.deleteMany({})
+    await LikesCommentsModel.deleteMany({})
     res.sendStatus(STATUS_CODE.NO_CONTENT_204)
 })

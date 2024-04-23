@@ -1,19 +1,18 @@
 import dotenv from 'dotenv'
 import {Blog} from "../allTypes/blogTypes";
 import {Post} from "../allTypes/postTypes";
-import { User} from "../allTypes/userTypes";
+import {User} from "../allTypes/userTypes";
 import {Comment} from "../allTypes/commentTypes";
 import {Visit} from "../allTypes/visitTypes";
 import {UsersDevices} from "../allTypes/usersDevicesTypes";
 import mongoose from 'mongoose'
+import {LikeComment, StatusLike} from "../allTypes/LikesCommentsTypes";
 
 
 dotenv.config()
 
 
-const mongoUri = process.env.MONGO_URL ;
-
-
+const mongoUri = process.env.MONGO_URL;
 
 
 const userScheme = new mongoose.Schema<User>({
@@ -21,18 +20,16 @@ const userScheme = new mongoose.Schema<User>({
     login: String,
     email: String,
     createdAt: Date,
-    emailConfirmation:{
+    emailConfirmation: {
         confirmationCode: String,
         expirationDate: Date,
-        isConfirmed:Boolean
+        isConfirmed: Boolean
     },
-    blackListRefreshToken:[String]
+    blackListRefreshToken: [String]
 })
 
 
 export const usersModel = mongoose.model<User>('users', userScheme);
-
-
 
 
 const postScheme = new mongoose.Schema<Post>({
@@ -46,7 +43,6 @@ const postScheme = new mongoose.Schema<Post>({
 export const postssModel = mongoose.model<Post>('posts', postScheme);
 
 
-
 const blogScheme = new mongoose.Schema<Blog>({
     name: String,
     description: String,
@@ -57,13 +53,12 @@ const blogScheme = new mongoose.Schema<Blog>({
 export const blogsModel = mongoose.model<Blog>('blogs', blogScheme);
 
 
-
 const commentScheme = new mongoose.Schema<Comment>({
     content: String,
     createdAt: String,
     commentatorInfo: {
-        userId:String,
-        userLogin:String
+        userId: String,
+        userLogin: String
     },
     postId: String,
 
@@ -91,13 +86,24 @@ const usersDeviceScheme = new mongoose.Schema<UsersDevices>({
 export const usersDevicesModel = mongoose.model<UsersDevices>('users_devices', usersDeviceScheme);
 
 
+const LikesCommentsScheme = new mongoose.Schema({
+    commentId: String,
+    userId: String,
+    statusLike: {
+        type: String,
+        enum: Object.values(StatusLike)
+    },
+});
+
+export const LikesCommentsModel = mongoose.model<LikeComment>('likes_comments', LikesCommentsScheme);
+
 
 export async function runDb() {
     try {
-        if(!mongoUri){
+        if (!mongoUri) {
             throw new Error('URL not find(file mongoDb')
         }
-        await mongoose.connect(mongoUri ,{ dbName:process.env.DB_NAME });
+        await mongoose.connect(mongoUri, {dbName: process.env.DB_NAME});
 
         console.log('Connected successful with mongoDB')
 
