@@ -14,15 +14,22 @@ import {errorValidationBlogs} from "../middlewares/blogsMiddelwares/errorValidat
 import {isExistCommentMiddleware} from "../middlewares/commentsMiddleware/isExistCommentMiddleware";
 import {likeStatusValidation} from "../middlewares/commentsMiddleware/likeStatusValidation";
 import {LikeStatusBodyModel} from "../models/LikeStatusBodyModel";
+import {isExistCommentMiddlewareById} from "../middlewares/commentsMiddleware/isExistCommentMiddlewareById";
+import {idUserFromAccessTokenMiddleware} from "../middlewares/authMiddleware/idUserFromAccessTokenMiddleware";
+import {IdStringParam} from "../models/IdStringParam";
+import {newCommentsQueryRepository} from "../repositories/comments/new-comments-query-reposotory";
+import {idMiddleware} from "../middlewares/commentsMiddleware/idMiddleware";
 
 
 export const commentsRoute = Router({})
 
 
-commentsRoute.get('/:commentId', commentIdMiddleware, async (req: RequestWithParams<IdCommentParam>, res: Response) => {
+
+commentsRoute.get('/:id', idMiddleware, isExistCommentMiddlewareById, idUserFromAccessTokenMiddleware, async (req: RequestWithParams<IdStringParam>, res: Response) => {
 
     try {
-        const comment = await commentsQueryRepository.findCommentById(req.params.commentId)
+
+        const comment = await newCommentsQueryRepository.findCommentById(req.params.id, req.userId)
 
         if (comment) {
             return res.status(STATUS_CODE.SUCCESS_200).send(comment)
@@ -36,6 +43,8 @@ commentsRoute.get('/:commentId', commentIdMiddleware, async (req: RequestWithPar
     }
 
 })
+
+
 
 
 commentsRoute.delete('/:commentId', commentIdMiddleware, isExistCommentMiddleware, authTokenMiddleware, commentIsOwnMiddleware, async (req: RequestWithParams<IdCommentParam>, res: Response) => {
