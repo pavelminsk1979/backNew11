@@ -188,7 +188,7 @@ describe('/like_comments', () => {
 
             .expect(STATUS_CODE.SUCCESS_200)
 
-        console.log(res.body)
+        //console.log(res.body)
     })
 
     it(" get coment from NOT authorization user", async () => {
@@ -196,6 +196,17 @@ describe('/like_comments', () => {
             .get(`/comments/${idComent}`)
 
             .expect(STATUS_CODE.SUCCESS_200)
+
+        //console.log(res.body)
+    })
+
+    it(" create comment", async () => {
+        const res = await req
+            .post(`/posts/${idPost}/comments`)
+            .set('Authorization', `Bearer ${jwtTokenSecond}`)
+            .send({content: 'content1 for1 comments1 for1 post1'})
+
+            .expect(STATUS_CODE.CREATED_201)
 
         console.log(res.body)
     })
