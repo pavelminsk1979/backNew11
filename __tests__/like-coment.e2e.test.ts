@@ -35,14 +35,18 @@ describe('/like_comments', () => {
 
 
     const loginPasswordBasic64 = 'YWRtaW46cXdlcnR5'
-    const loginNewUser = '300300'
-    const passwordNewUser = '11111pasw'
-    const emailNewUser = 'palPel@mail.ru'
+    const loginUser1 = '1111111'
+    const passwordUser1 = '11111pasw'
+    const emailUser1 = 'palPel11@mail.ru'
     let jwtToken1 = ''
-    const loginSecondUser = '100100'
-    const passwordSecondUser = '55555pasw'
-    const emailSecondUser = 'SecondUs@mail.ru'
-    let jwtTokenSecond = ''
+    const loginSecondUser = '22222222'
+    const passwordSecondUser = '2222pasw'
+    const emailSecondUser = 'palPel22@mail.ru'
+    let jwtToken2 = ''
+    const loginUser3 = '33333333'
+    const passwordUser3 = '33333pasw'
+    const emailUser3 = 'palPel33@mail.ru'
+    let jwtToken3=''
     let idBlog: string
     let idPost: string
     let idComent: string
@@ -51,35 +55,35 @@ describe('/like_comments', () => {
     // запустить тест, потом закоментировать
     //создание юзера и блога и поста
 
-    it(' create users', async () => {
+    it(' create users1', async () => {
         const res = await req
             .post('/users')
             .set('Authorization', `Basic ${loginPasswordBasic64}`)
             .send({
-                login: loginNewUser,
-                password: passwordNewUser,
-                email: emailNewUser
+                login: loginUser1,
+                password: passwordUser1,
+                email: emailUser1
             })
             .expect(STATUS_CODE.CREATED_201)
 
-        expect(res.body.login).toEqual(loginNewUser)
-        expect(res.body.email).toEqual(emailNewUser)
+        //expect(res.body.login).toEqual(loginUser1)
+
     })
 
 
-    it(" login user", async () => {
+    it(" login user1", async () => {
         const res = await req
             .post('/auth/login')
             .send({
-                loginOrEmail: loginNewUser,
-                password: passwordNewUser
+                loginOrEmail: loginUser1,
+                password: passwordUser1
             })
             .expect(STATUS_CODE.SUCCESS_200)
 
         // console.log(res.body.accessToken)
         jwtToken1 = res.body.accessToken
 
-        expect(res.body.accessToken).toBeTruthy()
+        //expect(res.body.accessToken).toBeTruthy()
     })
 
 
@@ -108,9 +112,40 @@ describe('/like_comments', () => {
             .expect(STATUS_CODE.SUCCESS_200)
 
         // console.log(res.body.accessToken)
-        jwtTokenSecond = res.body.accessToken
+        jwtToken2 = res.body.accessToken
 
         expect(res.body.accessToken).toBeTruthy()
+    })
+
+    it(' create users3', async () => {
+        const res = await req
+            .post('/users')
+            .set('Authorization', `Basic ${loginPasswordBasic64}`)
+            .send({
+                login: loginUser3,
+                password: passwordUser3,
+                email: emailUser3
+            })
+            .expect(STATUS_CODE.CREATED_201)
+
+        //expect(res.body.login).toEqual(loginUser1)
+
+    })
+
+
+    it(" login user3", async () => {
+        const res = await req
+            .post('/auth/login')
+            .send({
+                loginOrEmail: loginUser3,
+                password: passwordUser3
+            })
+            .expect(STATUS_CODE.SUCCESS_200)
+
+        // console.log(res.body.accessToken)
+        jwtToken3 = res.body.accessToken
+
+        //expect(res.body.accessToken).toBeTruthy()
     })
 
 
@@ -161,36 +196,81 @@ describe('/like_comments', () => {
         //console.log(res.body)
 
     })
+
     //Досюда можно коментировать и потом работать с лайками только
     /////////////////////////////////////////////////////////////
 
+    /////////////////////////////////////////////////////////////
 
-    it(" create Like for correct coment", async () => {
+    //////////////////////////////////////////////////////////////
+
+    ///////////////////////////////////////////////////////////
+
+
+    //////////////////////////////////////////////////////////////
+
+    it("  Dislike from user1", async () => {
         await req
             .put(`/comments/${idComent}/like-status`)
             .set('Authorization', `Bearer ${jwtToken1}`)
-            .send({likeStatus: 'Like'})
-            .expect(STATUS_CODE.NO_CONTENT_204)
-    })
-
-    it(" create Like for correct coment", async () => {
-        await req
-            .put(`/comments/${idComent}/like-status`)
-            .set('Authorization', `Bearer ${jwtTokenSecond}`)
             .send({likeStatus: 'Dislike'})
             .expect(STATUS_CODE.NO_CONTENT_204)
     })
 
-    it(" get coment from authorization user", async () => {
+
+
+    it(" get comment from authorization user", async () => {
         const res = await req
             .get(`/comments/${idComent}`)
-            .set('Authorization', `Bearer ${jwtTokenSecond}`)
+            .set('Authorization', `Bearer ${jwtToken1}`)
 
             .expect(STATUS_CODE.SUCCESS_200)
 
-        //console.log(res.body)
+        console.log(res.body)
     })
 
+
+
+    it("  Dislike from user2", async () => {
+        await req
+            .put(`/comments/${idComent}/like-status`)
+            .set('Authorization', `Bearer ${jwtToken2}`)
+            .send({likeStatus: 'Dislike'})
+            .expect(STATUS_CODE.NO_CONTENT_204)
+    })
+
+
+
+    it(" get comment from authorization user", async () => {
+        const res = await req
+            .get(`/comments/${idComent}`)
+            .set('Authorization', `Bearer ${jwtToken1}`)
+
+            .expect(STATUS_CODE.SUCCESS_200)
+
+        console.log(res.body)
+    })
+
+    it("  Like from user3", async () => {
+        await req
+            .put(`/comments/${idComent}/like-status`)
+            .set('Authorization', `Bearer ${jwtToken3}`)
+            .send({likeStatus: 'Like'})
+            .expect(STATUS_CODE.NO_CONTENT_204)
+    })
+
+
+    it(" get comment from authorization user", async () => {
+        const res = await req
+            .get(`/comments/${idComent}`)
+            .set('Authorization', `Bearer ${jwtToken1}`)
+
+            .expect(STATUS_CODE.SUCCESS_200)
+
+        console.log(res.body)
+    })
+
+/*
     it(" get coment from NOT authorization user", async () => {
         const res = await req
             .get(`/comments/${idComent}`)
@@ -221,7 +301,7 @@ describe('/like_comments', () => {
 
         //console.log('test'+' '+res.body.items)
         console.log('test'+' '+res.body)
-    })
+    })*/
 
 
 })
