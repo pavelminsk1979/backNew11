@@ -30,18 +30,20 @@ export const commentsSevrice = {
         /*Если документа  нет тогда надо добавить
    newDocumentForCollectionLikesComments в базу*/
 
-        const newDocumentForCollectionLikesComments: LikeComment = {
-            commentId, userId, statusLike}
+
 
 
         if (!documentByUserId) {
+            const newDocumentForCollectionLikesComments: LikeComment = {
+                commentId, userId, statusLike}
+
             return LikesCommentsRepository.addNewDocumentForLikeCommentCollention(newDocumentForCollectionLikesComments)
         }
 
         /*Если документ есть тогда надо изменить
         statusLike на приходящий */
 
-            return LikesCommentsRepository.setNewStatusLike(userId, statusLike)
+            return LikesCommentsRepository.setNewStatusLike(userId,commentId,  statusLike)
 
     },
 }

@@ -226,19 +226,15 @@ describe('/like_comments', () => {
 
             .expect(STATUS_CODE.SUCCESS_200)
 
-        console.log(res.body)
+            //console.log(res.body)
     })
 
 
-
-
-
-
-    it("  Dislike from user2", async () => {
+    it("  Dislike from user1", async () => {
         await req
             .put(`/comments/${idComent}/like-status`)
-            .set('Authorization', `Bearer ${jwtToken2}`)
-            .send({likeStatus: 'Dislike'})
+            .set('Authorization', `Bearer ${jwtToken1}`)
+            .send({likeStatus: 'None'})
             .expect(STATUS_CODE.NO_CONTENT_204)
     })
 
@@ -251,18 +247,22 @@ describe('/like_comments', () => {
 
             .expect(STATUS_CODE.SUCCESS_200)
 
-        console.log(res.body)
+        //console.log(res.body)
     })
 
-    it("  Like from user3", async () => {
+
+
+
+    it("  Like from user1", async () => {
         await req
             .put(`/comments/${idComent}/like-status`)
-            .set('Authorization', `Bearer ${jwtToken3}`)
+            .set('Authorization', `Bearer ${jwtToken1}`)
             .send({likeStatus: 'Like'})
             .expect(STATUS_CODE.NO_CONTENT_204)
     })
 
 
+
     it(" get comment from authorization user", async () => {
         const res = await req
             .get(`/comments/${idComent}`)
@@ -270,9 +270,8 @@ describe('/like_comments', () => {
 
             .expect(STATUS_CODE.SUCCESS_200)
 
-        console.log(res.body)
+        //console.log(res.body)
     })
-
 
 
     it(" get comment from authorization user", async () => {
@@ -282,12 +281,72 @@ describe('/like_comments', () => {
 
             .expect(STATUS_CODE.SUCCESS_200)
 
-        console.log(res.body)
+       // console.log(res.body)
     })
 
 
 
-    ///////////////////////////////////////////////////
+
+
+
+
+
+
+
+        it("  Dislike from user2", async () => {
+            await req
+                .put(`/comments/${idComent}/like-status`)
+                .set('Authorization', `Bearer ${jwtToken2}`)
+                .send({likeStatus: 'Dislike'})
+                .expect(STATUS_CODE.NO_CONTENT_204)
+        })
+
+
+
+        it(" get comment from authorization user", async () => {
+            const res = await req
+                .get(`/comments/${idComent}`)
+                .set('Authorization', `Bearer ${jwtToken1}`)
+
+                .expect(STATUS_CODE.SUCCESS_200)
+
+            //console.log(res.body)
+        })
+
+        it("  Like from user3", async () => {
+            await req
+                .put(`/comments/${idComent}/like-status`)
+                .set('Authorization', `Bearer ${jwtToken3}`)
+                .send({likeStatus: 'Like'})
+                .expect(STATUS_CODE.NO_CONTENT_204)
+        })
+
+
+        it(" get comment from authorization user", async () => {
+            const res = await req
+                .get(`/comments/${idComent}`)
+                .set('Authorization', `Bearer ${jwtToken1}`)
+
+                .expect(STATUS_CODE.SUCCESS_200)
+
+            //console.log(res.body)
+        })
+
+
+
+        it(" get comment from authorization user", async () => {
+            const res = await req
+                .get(`/comments/${idComent}`)
+
+
+                .expect(STATUS_CODE.SUCCESS_200)
+
+            //console.log(res.body)
+        })
+
+
+
+        ///////////////////////////////////////////////////
 
 
 
@@ -298,40 +357,40 @@ describe('/like_comments', () => {
 
 
 
-    ////////////////////////////////////////
+        ////////////////////////////////////////
 
-/*
-    it(" get coment from NOT authorization user", async () => {
-        const res = await req
-            .get(`/comments/${idComent}`)
+        it(" get coment from NOT authorization user", async () => {
+            const res = await req
+                .get(`/comments/${idComent}`)
 
-            .expect(STATUS_CODE.SUCCESS_200)
+                .expect(STATUS_CODE.SUCCESS_200)
 
-        //console.log(res.body)
-    })
+            //console.log(res.body)
+        })
 
-    it(" create comment", async () => {
-        const res = await req
-            .post(`/posts/${idPost}/comments`)
-            .set('Authorization', `Bearer ${jwtTokenSecond}`)
-            .send({content: 'content1 for1 comments1 for1 post1'})
+        it(" create comment", async () => {
+            const res = await req
+                .post(`/posts/${idPost}/comments`)
+                .set('Authorization', `Bearer ${jwtToken2}`)
+                .send({content: 'content1 for1 comments1 for1 post1'})
 
-            .expect(STATUS_CODE.CREATED_201)
+                .expect(STATUS_CODE.CREATED_201)
 
-        //console.log(res.body)
-    })
+            //console.log(res.body)
+        })
 
-    it(" get all comments(array) from correct post", async () => {
-        const res = await req
-            .get(`/posts/${idPost}/comments`)
-            .set('Authorization', `Bearer ${jwtTokenSecond}`)
+        it(" get all comments(array) from correct post", async () => {
+            const res = await req
+                .get(`/posts/${idPost}/comments`)
+                .set('Authorization', `Bearer ${jwtToken2}`)
 
 
-            .expect(STATUS_CODE.SUCCESS_200)
+                .expect(STATUS_CODE.SUCCESS_200)
 
-        //console.log('test'+' '+res.body.items)
-        console.log('test'+' '+res.body)
-    })*/
+
+            //console.log(res.body)
+
+        })
 
 
 })

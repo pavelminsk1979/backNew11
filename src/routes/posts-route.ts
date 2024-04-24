@@ -93,7 +93,7 @@ postsRoute.delete('/:id', authMiddleware, async (req: RequestWithParams<IdString
 postsRoute.post('/:postId/comments',postIdMiddleware, authTokenMiddleware, contentValidationComments, errorValidationBlogs, async (req: RequestWithParamsWithBody<CreateComentPostIdModel, CreateComentBodyModel>, res: Response) => {
 
     try {
-        //задача создать новый коментарий для корректного
+        // создать новый коментарий для корректного
         //поста и вернуть данные этого коментария и также структуру(с
         //нулевыми значениями) данных о лайках к этому посту
 
@@ -159,7 +159,7 @@ postsRoute.get('/:postId/comments',postIdMiddleware,isExistPostByPostIdMiddlewar
             sortData,
             req.userId)
 
-        console.log(comments)
+        //console.log(comments)
 
         return res.status(STATUS_CODE.SUCCESS_200).send(comments)
 

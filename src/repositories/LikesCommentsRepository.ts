@@ -10,10 +10,10 @@ export const LikesCommentsRepository = {
 
     },
 
-    async setNewStatusLike(userId: string, statusLike: StatusLike) {
+    async setNewStatusLike(userId: string, commentId: string, statusLike: StatusLike) {
 
         return  LikesCommentsModel.findOneAndUpdate(
-            { userId},
+            { userId, commentId},
             {$set: {statusLike}});
         },
 
