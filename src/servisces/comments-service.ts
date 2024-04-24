@@ -23,8 +23,9 @@ export const commentsSevrice = {
         userId: string) {
 
 
-        /*    ищу в базе обьект один документ   по userId---*/
-        const documentByUserId = await LikesCommentsRepository.findDocumentByUserId(userId)
+        /*    ищу в базе Лайков  один документ   по
+         двум полям userId и commentId---*/
+        const documentByUserId = await LikesCommentsRepository.findDocumentByUserIdAndCommentId(userId,commentId)
 
         /*Если документа  нет тогда надо добавить
    newDocumentForCollectionLikesComments в базу*/

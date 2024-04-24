@@ -3,11 +3,12 @@ import {LikeComment, StatusLike} from "../allTypes/LikesCommentsTypes";
 
 export const LikesCommentsRepository = {
 
-    async findDocumentByUserId(userId: string) {
 
-        return LikesCommentsModel.findOne({ userId });
+    async findDocumentByUserIdAndCommentId(userId: string,commentId: string) {
 
-        },
+        return LikesCommentsModel.findOne({ userId , commentId});
+
+    },
 
     async setNewStatusLike(userId: string, statusLike: StatusLike) {
 

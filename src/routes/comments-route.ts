@@ -35,7 +35,10 @@ commentsRoute.get('/:id', idMiddleware, isExistCommentMiddlewareById, idUserFrom
         const comment = await newCommentsQueryRepository.findCommentById(
             req.params.id,
             req.userId)
+        console.log('+++++++++++++')
 
+        console.log(comment)
+        console.log('+++++++++++++')
         if (comment) {
             return res.status(STATUS_CODE.SUCCESS_200).send(comment)
         } else {
@@ -94,7 +97,8 @@ commentsRoute.put('/:commentId',commentIdMiddleware,isExistCommentMiddleware,aut
 
 
 commentsRoute.put('/:commentId/like-status', commentIdMiddleware, isExistCommentMiddleware, authTokenMiddleware, likeStatusValidation, errorValidationBlogs, async (req: RequestWithParamsWithBody<IdCommentParam, LikeStatusBodyModel>, res: Response) => {
-
+    console.log( req.body.likeStatus,
+        req.userIdLoginEmail.id)
     try {
 
         await commentsSevrice.setOrUpdateLikeStatus(
