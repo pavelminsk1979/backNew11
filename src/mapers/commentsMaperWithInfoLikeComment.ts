@@ -33,8 +33,8 @@ export const commentsMaperWithInfoLikeComment =  (
                 userLogin: coment.commentatorInfo.userLogin
             },
             likesInfo: {
-                likesCount: likesCount ? likesCount : 0,
-                dislikesCount: dislikesCount?dislikesCount:0,
+                likesCount: likesCount ? likesCount : 50,
+                dislikesCount: dislikesCount?dislikesCount:50,
                 myStatus: likeComent ? likeComent.statusLike : "None"
             }
         }

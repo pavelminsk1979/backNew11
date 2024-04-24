@@ -219,21 +219,10 @@ describe('/like_comments', () => {
 
 
 
-/*    it(" get comment from authorization user", async () => {
-        const res = await req
-            .get(`/comments/${idComent}`)
-            .set('Authorization', `Bearer ${jwtToken1}`)
-
-            .expect(STATUS_CODE.SUCCESS_200)
-
-        console.log(res.body)
-    })*/
-
-
     it(" get comment from authorization user", async () => {
         const res = await req
             .get(`/comments/${idComent}`)
-
+            .set('Authorization', `Bearer ${jwtToken1}`)
 
             .expect(STATUS_CODE.SUCCESS_200)
 
@@ -242,7 +231,10 @@ describe('/like_comments', () => {
 
 
 
- /*   it("  Dislike from user2", async () => {
+
+
+
+    it("  Dislike from user2", async () => {
         await req
             .put(`/comments/${idComent}/like-status`)
             .set('Authorization', `Bearer ${jwtToken2}`)
@@ -259,7 +251,7 @@ describe('/like_comments', () => {
 
             .expect(STATUS_CODE.SUCCESS_200)
 
-       // console.log(res.body)
+        console.log(res.body)
     })
 
     it("  Like from user3", async () => {
@@ -278,8 +270,10 @@ describe('/like_comments', () => {
 
             .expect(STATUS_CODE.SUCCESS_200)
 
-       // console.log(res.body)
+        console.log(res.body)
     })
+
+
 
     it(" get comment from authorization user", async () => {
         const res = await req
@@ -290,7 +284,8 @@ describe('/like_comments', () => {
 
         console.log(res.body)
     })
-    */
+
+
 
     ///////////////////////////////////////////////////
 
