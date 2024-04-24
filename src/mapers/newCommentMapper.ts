@@ -2,11 +2,11 @@ import {LikeComment} from "../allTypes/LikesCommentsTypes";
 
 export const newCommentMapper = (
     documenComment:any,
-    documentLikeComent: LikeComment | null,
+    documentLikeComentAuthorisationUser: LikeComment | null,
     likesCount:number,
     dislikesCount:number) => {
 
-    if (!documentLikeComent) {
+    if (!documentLikeComentAuthorisationUser) {
         return {
             id: documenComment._id.toString(),
             content: documenComment.content,
@@ -16,15 +16,15 @@ export const newCommentMapper = (
                 userLogin: documenComment.commentatorInfo.userLogin
             },
             likesInfo: {
-                likesCount: 0,
-                dislikesCount: 0,
+                likesCount,
+                dislikesCount,
                 myStatus: "None"
             }
         }
     }
 
 
-    const myStatus=documentLikeComent.statusLike
+    const myStatus=documentLikeComentAuthorisationUser.statusLike
 
 
     return {

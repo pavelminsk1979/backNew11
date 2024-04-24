@@ -29,6 +29,9 @@ commentsRoute.get('/:id', idMiddleware, isExistCommentMiddlewareById, idUserFrom
 
     try {
 
+/*вернуть данные одного коментария и внутри
+        данные по лайкам этого коментария*/
+
         const comment = await newCommentsQueryRepository.findCommentById(
             req.params.id,
             req.userId)

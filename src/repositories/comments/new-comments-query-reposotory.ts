@@ -8,7 +8,7 @@ export const newCommentsQueryRepository = {
     async findCommentById(id: string, userId: string | null) {
 
          /*данные коментария из колекцииКоментариев  достану , и чтоб ответ
-        мапером собрать нужны данные из
+        мапером собрать нужны  также  данные из
         колекции likeComment*/
 
         const documenComment = await commentsModel.findOne({_id: new ObjectId(id)})
@@ -21,7 +21,7 @@ export const newCommentsQueryRepository = {
         commentId  и userId. Конкретный юзер может в конкретном
         документе поставить только один likeStatus*/
 
-        const documentLikeComent = await LikesCommentsModel.findOne({
+        const documentLikeComentAuthorisationUser = await LikesCommentsModel.findOne({
             commentId: new ObjectId(id),userId})
 
 
@@ -32,10 +32,9 @@ export const newCommentsQueryRepository = {
         const dislikesCount = await LikesCommentsModel.countDocuments({ commentId: new ObjectId(id), statusLike: StatusLike.Dislike });
 
 
-
         return newCommentMapper(
             documenComment,
-            documentLikeComent,
+            documentLikeComentAuthorisationUser,
             likesCount,
             dislikesCount)
 
