@@ -1,13 +1,13 @@
 import {LikeComment, StatusLike} from "../allTypes/LikesCommentsTypes";
 
 
-export const commentsMaperWithInfoLikeComment =  (
+export const commentsMaperWithInfoLikeComment = (
     arrayDocumentsComments: any,
     userId: string | null,
     arrayDocumentsFromLikeCollection: LikeComment[]
 ) => {
 
-    const arrayComments = arrayDocumentsComments.map((coment:any) => {
+    const arrayComments = arrayDocumentsComments.map((coment: any) => {
 
         //нахожу все документы из масива ЛайкКомент у которых
         //айдиКомент такаяже как у текущего коментари
@@ -33,8 +33,8 @@ export const commentsMaperWithInfoLikeComment =  (
                 userLogin: coment.commentatorInfo.userLogin
             },
             likesInfo: {
-                likesCount: likesCount ? likesCount : 50,
-                dislikesCount: dislikesCount?dislikesCount:50,
+                likesCount: likesCount,
+                dislikesCount: dislikesCount,
                 myStatus: likeComent ? likeComent.statusLike : "None"
             }
         }
