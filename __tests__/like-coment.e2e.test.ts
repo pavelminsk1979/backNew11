@@ -165,7 +165,7 @@ describe('/like_comments', () => {
     /////////////////////////////////////////////////////////////
 
 
-/*    it(" create Like for correct coment", async () => {
+    it(" create Like for correct coment", async () => {
         await req
             .put(`/comments/${idComent}/like-status`)
             .set('Authorization', `Bearer ${jwtToken1}`)
@@ -179,7 +179,7 @@ describe('/like_comments', () => {
             .set('Authorization', `Bearer ${jwtTokenSecond}`)
             .send({likeStatus: 'Dislike'})
             .expect(STATUS_CODE.NO_CONTENT_204)
-    })*/
+    })
 
     it(" get coment from authorization user", async () => {
         const res = await req
@@ -208,7 +208,19 @@ describe('/like_comments', () => {
 
             .expect(STATUS_CODE.CREATED_201)
 
-        console.log(res.body)
+        //console.log(res.body)
+    })
+
+    it(" get all comments(array) from correct post", async () => {
+        const res = await req
+            .get(`/posts/${idPost}/comments`)
+            .set('Authorization', `Bearer ${jwtTokenSecond}`)
+
+
+            .expect(STATUS_CODE.SUCCESS_200)
+
+        //console.log('test'+' '+res.body.items)
+        console.log('test'+' '+res.body)
     })
 
 

@@ -1,10 +1,10 @@
 
-import {OutputComment} from "../allTypes/commentTypes";
+import {NewOutputComment} from "../allTypes/commentTypes";
 
 
 
 
-export const commentMaper = (comment:any):OutputComment => {
+export const commentMaper = (comment:any):NewOutputComment => {
     return {
         id:comment._id.toString(),
         content: comment.content,
@@ -12,6 +12,11 @@ export const commentMaper = (comment:any):OutputComment => {
         commentatorInfo: {
             userId:comment.commentatorInfo.userId,
             userLogin:comment.commentatorInfo.userLogin
+        },
+        "likesInfo": {
+            "likesCount": 0,
+            "dislikesCount": 0,
+            "myStatus": "None"
         }
     }
 }

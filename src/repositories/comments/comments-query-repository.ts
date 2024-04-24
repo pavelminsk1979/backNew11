@@ -1,10 +1,8 @@
 import {commentsModel, LikesCommentsModel} from "../../db/mongoDb";
 import {ObjectId} from "mongodb";
 import {commentMaper} from "../../mapers/commentMaper";
-import {OutputComment, SortDataGetCoomentsForCorrectPost} from "../../allTypes/commentTypes";
-import {commentMaperWithoutLike} from "../../mapers/commentMaperWithoutLike";
+import { SortDataGetCoomentsForCorrectPost} from "../../allTypes/commentTypes";
 import {commentsMaperWithInfoLikeComment} from "../../mapers/commentsMaperWithInfoLikeComment";
-import {LikeComment} from "../../allTypes/LikesCommentsTypes";
 
 
 
@@ -35,7 +33,7 @@ export const commentsQueryRepository = {
 
         const sortDirectionValue = sortDirection === 'asc' ? 1 : -1;
 
-        const comments = await commentsModel
+        const arrayDocumentsComments = await commentsModel
             .find({postId})
             .sort({ [sortBy]: sortDirectionValue } )
             .skip((pageNumber - 1) * pageSize)
@@ -48,24 +46,31 @@ export const commentsQueryRepository = {
 
 
 
+        //arrayDocumentsComments - это массив коментариев для одного
+        // корректного поста и в каждом документе
+        //уникальная _id new ObjectId-это айдишка коментария
+            //получу массив айдишек  - [ '6628d4bcb6ea72bda3f934e8', '6628d4bcb6ea72bda3f934d9' ]
 
-        /* из базы из колекции лайковКоментариев достаю только те документы у которых айдишкаКкоментария совпадает с
-         айдишкамиКОментариев из  массиве comments*/
-        const arrayDocumentsFromLikeCollection:LikeComment[] = await LikesCommentsModel.aggregate([
-            { $match: { commentId: { $in: comments } } },
-            { $group: { _id: '$commentId', count: { $sum: 1 } } }
-        ]);
+        const arrayIdComents = arrayDocumentsComments.map(e=>e._id.toString())
+
+        //console.log(arrayIdComents)
 
 
-        //Промежуточный вид  массива создаюдля для возврата на фронт
-        // массив  без информации об Лайках
-        const arrayComentsWithoutLike:OutputComment[] = commentMaperWithoutLike(comments)
+        /* из базы из колекции лайковКоментариев достаю только те документы
+         у которых commentId совпадает с
+         айдишками из  массиве arrayIdComents*/
+        const arrayDocumentsFromLikeCollection = await LikesCommentsModel.find({ commentId: { $in: arrayIdComents } });
+
+            //console.log(arrayDocumentsFromLikeCollection)
+
+
 
         // массив со всеми свойствами согласно SWAGER
         const arrayComments = commentsMaperWithInfoLikeComment(
-            arrayComentsWithoutLike
+            arrayDocumentsComments
             ,userId,
             arrayDocumentsFromLikeCollection)
+        //console.log(arrayComments)
 
         return {
             pagesCount,

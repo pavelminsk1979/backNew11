@@ -93,6 +93,9 @@ postsRoute.delete('/:id', authMiddleware, async (req: RequestWithParams<IdString
 postsRoute.post('/:postId/comments',postIdMiddleware, authTokenMiddleware, contentValidationComments, errorValidationBlogs, async (req: RequestWithParamsWithBody<CreateComentPostIdModel, CreateComentBodyModel>, res: Response) => {
 
     try {
+        //задача создать новый коментарий для корректного
+        //поста и вернуть данные этого коментария и также структуру(с
+        //нулевыми значениями) данных о лайках к этому посту
 
         const newCommentForPost = await postsSevrice.createCommentForPostByPostId(
             req.params.postId,
@@ -102,12 +105,13 @@ postsRoute.post('/:postId/comments',postIdMiddleware, authTokenMiddleware, conte
 
         if (newCommentForPost.code === ResultCode.NotFound) {
             return res.sendStatus(STATUS_CODE.NOT_FOUND_404)
-
         }
+
         if (newCommentForPost.code === ResultCode.Success) {
             return res.status(STATUS_CODE.CREATED_201).send(newCommentForPost.data)
+
         } else {
-            console.log(' FIlE post-routes.ts post-/:postId/comments')
+
             return res.sendStatus(STATUS_CODE.NOT_FOUND_404)
         }
 
@@ -122,9 +126,16 @@ postsRoute.post('/:postId/comments',postIdMiddleware, authTokenMiddleware, conte
 
 
 postsRoute.get('/:postId/comments',postIdMiddleware,isExistPostByPostIdMiddleware,idUserFromAccessTokenMiddleware, async (req: RequestWithParamsWithQuery<CreateComentPostIdModel, QueryInputModalGetCommentsForCorrectPost>, res: Response) => {
-
+    //вернуть все коментарии(массив) корректного поста
+    //и у каждого коментария будут данные о лайках
+    //к этому коментарию
 
     const sortData = {
+        //isNaN  проверяет, является ли переданное значение не числом (NaN)
+
+        //Если req.query.pageNumber не является числом или не может быть
+        //преобразовано в число, то isNaN(Number(req.query.pageNumber))
+       // вернет true.
         pageNumber: isNaN(Number(req.query.pageNumber))
             ? 1
             : Number(req.query.pageNumber),
@@ -133,6 +144,9 @@ postsRoute.get('/:postId/comments',postIdMiddleware,isExistPostByPostIdMiddlewar
             ? 10
             : Number(req.query.pageSize),
 
+        //Оператор ??- оператор нулевого слияния
+        //Если req.query.sortBy равно null или undefined, то
+        // переменная sortBy будет равна 'createdAt'.
         sortBy: req.query.sortBy ?? 'createdAt',
         sortDirection: req.query.sortDirection ?? 'desc',
     }
@@ -145,17 +159,10 @@ postsRoute.get('/:postId/comments',postIdMiddleware,isExistPostByPostIdMiddlewar
             sortData,
             req.userId)
 
+        console.log(comments)
+
         return res.status(STATUS_CODE.SUCCESS_200).send(comments)
-/*
-        const post = await postQueryRepository.findPostById(req.params.postId)
 
-        if (!post) {
-            return res.sendStatus(STATUS_CODE.NOT_FOUND_404)
-        }
-
-        const comments = await commentsQueryRepository.getCommentsForCorrectPost(req.params.postId, sortData)
-
-        return res.status(STATUS_CODE.SUCCESS_200).send(comments)*/
 
 
     } catch (error) {

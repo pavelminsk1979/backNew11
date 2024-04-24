@@ -3,7 +3,8 @@ import {LikeComment} from "../allTypes/LikesCommentsTypes";
 export const newCommentMapper = (
     documenComment:any,
     documentLikeComent: LikeComment | null,
-    likesCount:number, dislikesCount:number) => {
+    likesCount:number,
+    dislikesCount:number) => {
 
     if (!documentLikeComent) {
         return {

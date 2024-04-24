@@ -1,14 +1,13 @@
-import {OutputComment} from "../allTypes/commentTypes";
 import {LikeComment, StatusLike} from "../allTypes/LikesCommentsTypes";
 
 
-export const commentsMaperWithInfoLikeComment = async (
-    arrayComentsWithoutLike: OutputComment[],
+export const commentsMaperWithInfoLikeComment =  (
+    arrayDocumentsComments: any,
     userId: string | null,
     arrayDocumentsFromLikeCollection: LikeComment[]
 ) => {
 
-    const arrayComments = arrayComentsWithoutLike.map((coment: OutputComment) => {
+    const arrayComments = arrayDocumentsComments.map((coment:any) => {
 
         //нахожу все документы из масива ЛайкКомент у которых
         //айдиКомент такаяже как у текущего коментари
@@ -26,7 +25,7 @@ export const commentsMaperWithInfoLikeComment = async (
         const dislikesCount = likesCommentByIdComment.filter(e => e.statusLike === StatusLike.Dislike).length
 
         return {
-            id: coment.id,
+            id: coment._id.toString(),
             content: coment.content,
             createdAt: coment.createdAt,
             commentatorInfo: {

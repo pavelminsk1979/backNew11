@@ -29,7 +29,9 @@ commentsRoute.get('/:id', idMiddleware, isExistCommentMiddlewareById, idUserFrom
 
     try {
 
-        const comment = await newCommentsQueryRepository.findCommentById(req.params.id, req.userId)
+        const comment = await newCommentsQueryRepository.findCommentById(
+            req.params.id,
+            req.userId)
 
         if (comment) {
             return res.status(STATUS_CODE.SUCCESS_200).send(comment)

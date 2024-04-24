@@ -17,7 +17,10 @@ export const commentsSevrice = {
     },
 
 
-    async setOrUpdateLikeStatus(commentId: string, statusLike: StatusLike, userId: string) {
+    async setOrUpdateLikeStatus(
+        commentId: string,
+        statusLike: StatusLike,
+        userId: string) {
 
 
         /*    ищу в базе обьект один документ   по userId---*/
@@ -26,7 +29,8 @@ export const commentsSevrice = {
         /*Если документа  нет тогда надо добавить
    newDocumentForCollectionLikesComments в базу*/
 
-        const newDocumentForCollectionLikesComments: LikeComment = {commentId, userId, statusLike}
+        const newDocumentForCollectionLikesComments: LikeComment = {
+            commentId, userId, statusLike}
 
 
         if (!documentByUserId) {

@@ -7,7 +7,6 @@ import {Comment, CommentatorInfo} from "../allTypes/commentTypes";
 import {commentsRepository} from "../repositories/comments/comments-repository";
 import {commentsQueryRepository} from "../repositories/comments/comments-query-repository";
 import {ResultCode} from "../common/object-result";
-import {commentForPostMaper} from "../mapers/commentForPostMaper";
 
 
 
@@ -75,14 +74,16 @@ export const postsSevrice = {
         userLogin: string) {
 
 
+//эту проверку можно в мидлвеер перенести
         const post = await postQueryRepository.findPostById(postId)
-
         if (!post) return {
             code:ResultCode.NotFound,
             errorMessage:`Not found postId: ${postId}`,
             data:null
         }
 
+            //создается структура одного документа-коментария
+        // ее  буду в базу  Коментариев помещать
         const commentatorInfo: CommentatorInfo = {
             userId,
             userLogin
@@ -108,12 +109,11 @@ export const postsSevrice = {
 
         const newComment = await commentsQueryRepository.findCommentById(idComment)
 
-        const commentForPost=commentForPostMaper(newComment)
 
         return {
             code:ResultCode.Success,
             errorMessage:'',
-            data:commentForPost
+            data:newComment
         }
     }
 
